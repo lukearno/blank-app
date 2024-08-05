@@ -14,7 +14,7 @@ from dspy import (
 from dspy.teleprompt import BootstrapFewShot
 from llama_parse import LlamaParse
 from dspy.evaluate import Evaluate
-from dsp import LM
+from dspy import LM
 
 
 LLAMA_INDEX_KEY = st.secrets["LLAMA_INDEX_KEY"]
