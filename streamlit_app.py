@@ -22,7 +22,7 @@ CLAUD_KEY = st.secrets["CLAUD_KEY"]
 
 
 class Claude(LM):
-    def __init__(model, api_key):
+    def __init__(self, model, api_key):
         self.model = model
         self.api_key = api_key
         self.provider = "default"
