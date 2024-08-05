@@ -76,7 +76,7 @@ dspy.settings.configure(lm=claude)
 # coh = dspy.Cohere(model='c4ai-aya-23')
 # dspy.settings.configure(lm=coh)
 
-
+'''
 # Set up Resume and Job Description Parsing Functions
 def parse_resume(resume_file):
     parser = LlamaParse(
@@ -118,6 +118,32 @@ def main():
     job_text = parse_job(job_file)
 
     return resume_text, job_text
+
+
+import tempfile
+
+
+def parse_input_file(label):
+    parser = LlamaParse(
+        api_key=LLAMA_INDEX_KEY,
+        result_type="text",
+        verbose=True,
+    )
+    uploaded_file = st.file_uploader(label)
+    if uploaded_file is not None:
+        bytes_data = uploaded_file.getvalue()
+        with tempfile.NamedTemporaryFile(delete_on_close=True) as tf:
+            tf.write(bytes_data)
+            tf.flush()
+            doc = parser.load_data(tf.name)
+            return doc[0].text
+
+def main():
+    # Specify the paths to your files
+    resume_text = parse_input_file("Resume")
+    job_text = parse_input_file("Position")
+    return resume_text, job_text
+
 
 
 if __name__ == "__main__":
