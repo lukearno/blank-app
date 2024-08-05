@@ -118,7 +118,7 @@ def main():
     job_text = parse_job(job_file)
 
     return resume_text, job_text
-
+'''
 
 import tempfile
 
