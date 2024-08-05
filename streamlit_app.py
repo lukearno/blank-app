@@ -63,7 +63,7 @@ class Claude(LM):
         return completions
 
 
-claude = Claude(model="claude-3-5-sonnet-20240620")
+claude = Claude(model="claude-3-5-sonnet-20240620", CLAUDE_KEY)
 
 dspy.settings.configure(lm=claude)
 
