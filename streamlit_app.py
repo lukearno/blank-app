@@ -44,7 +44,9 @@ class Claude(LM):
             "model": self.model,
             "messages": [{"role": "user", "content": prompt}],
         }
+        import time
 
+        time.sleep(13)
         response = httpx.post(self.base_url, headers=headers, json=data)
         response = response.json()
         raise Exception(response)
