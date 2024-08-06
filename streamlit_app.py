@@ -111,7 +111,7 @@ class GenerateInterviewQuestion(dspy.Signature):
 
 
 class InterviewQuestionGenerator(dspy.Module):
-    def __init__(self):
+    def __init__(self, resume, job):
         super().__init__()
         self.resume = resume
         self.job = job
@@ -119,7 +119,7 @@ class InterviewQuestionGenerator(dspy.Module):
 
     def forward(self, last_answer=None):
         prediction = self.generate_question(
-            resume_text=self.resume, self.job_text=job, last_answer=last_answer
+            resume_text=self.resume, job_text=self.job, last_answer=last_answer
         )
         return dspy.Prediction(question=prediction.question)
 
@@ -185,6 +185,7 @@ def identify_current_skill(question, previous_questions):
 
 class Assess(dspy.Signature):
     """Assesses the interview question for question count within a skill."""
+
     assessed_text = dspy.InputField()  # Interview question
     assessment_question = dspy.InputField()  # Question for LLM assessment
     assessment_answer = dspy.OutputField(desc="Yes or No")  # LLM's answer
@@ -213,7 +214,9 @@ class FinalQuestionGenerator:
         evaluator = Evaluate(
             devset=trainset, num_threads=5, display_progress=True, display_table=11
         )
-        evaluation_score = evaluator(InterviewQuestionGenerator(resume=resume, job=job), metric)
+        evaluation_score = evaluator(
+            InterviewQuestionGenerator(resume=resume, job=job), metric
+        )
         print("Evaluation is good...")
         print(f"Average Metric: {evaluation_score}")
         teleprompter = BootstrapFewShot(
