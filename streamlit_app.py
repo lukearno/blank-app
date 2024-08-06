@@ -18,7 +18,7 @@ from dsp import LM
 
 
 LLAMA_INDEX_KEY = st.secrets["LLAMA_INDEX_KEY"]
-CLAUD_KEY = st.secrets["CLAUD_KEY"]
+CLAUDE_KEY = st.secrets["CLAUD_KEY"]
 
 
 class Claude(LM):
@@ -63,7 +63,7 @@ class Claude(LM):
         return completions
 
 
-claude = Claude("claude-3-5-sonnet-20240620", CLAUD_KEY)
+claude = Claude("claude-3-5-sonnet-20240620", CLAUDE_KEY)
 
 dspy.settings.configure(lm=claude)
 
@@ -198,7 +198,7 @@ def metric(gold, pred, trace=None):
     question = pred.question.lower()
     previous_questions = gold.previous_questions
     current_skill = identify_current_skill(question, previous_questions)
-    with dspy.context(lm=claud):
+    with dspy.context(lm=claude):
         count_check = dspy.Predict(Assess)(
             assessed_text=question,
             assessment_question=f"Have there already been 3 questions asked about the same skill ({current_skill}) as this question?",
