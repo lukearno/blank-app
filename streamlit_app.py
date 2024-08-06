@@ -63,9 +63,8 @@ class Claude(LM):
         return completions
 
 
-claude = Claude("claude-3-5-sonnet-20240620", CLAUDE_KEY)
-
-dspy.settings.configure(lm=claude)
+sonnet = Claude("claude-3-5-sonnet-20240620", CLAUDE_KEY)
+dspy.settings.configure(lm=sonnet)
 
 
 @st.cache_data
@@ -198,7 +197,7 @@ def metric(gold, pred, trace=None):
     question = pred.question.lower()
     previous_questions = gold.previous_questions
     current_skill = identify_current_skill(question, previous_questions)
-    with dspy.context(lm=claude):
+    with dspy.context(lm=sonnet):
         count_check = dspy.Predict(Assess)(
             assessed_text=question,
             assessment_question=f"Have there already been 3 questions asked about the same skill ({current_skill}) as this question?",
@@ -246,6 +245,9 @@ submit_button = st.button("Generate Interview Question")
 
 generated_question = None
 user_answer = None
+
+print(job_text)
+print(resume_text)
 
 if not (resume_text and job_text):
     st.error("Please upload both your resume and job description!")
