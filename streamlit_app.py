@@ -117,7 +117,7 @@ class InterviewQuestionGenerator(dspy.Module):
 
     def forward(self, resume, job, last_answer=None):
         prediction = self.generate_question(
-            resume=self.resume, job=self.job, last_answer=last_answer
+            resume=resume, job=job, last_answer=last_answer
         )
         return dspy.Prediction(question=prediction.question)
 
