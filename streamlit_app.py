@@ -76,7 +76,6 @@ def parse_local_pdf(filename):
             verbose=True,
         )
         doc = parser.load_data(filename)
-        print(doc)
         return doc[0].text
     except Exception as e:
         st.error(f"Error parsing resume with LlamaParse: {e}")
@@ -90,7 +89,7 @@ def parse_input_pdf(label):
         with tempfile.NamedTemporaryFile(suffix=".pdf") as tf:
             tf.write(bytes_data)
             tf.flush()
-            parse_local_pdf(tf.name)
+            return parse_local_pdf(tf.name)
 
 
 class GenerateInterviewQuestion(dspy.Signature):
