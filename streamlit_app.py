@@ -77,6 +77,7 @@ def parse_local_pdf(filename):
             verbose=True,
         )
         doc = parser.load_data(filename)
+        print(doc)
         return doc[0].text
     except Exception as e:
         st.error(f"Error parsing resume with LlamaParse: {e}")
@@ -134,7 +135,7 @@ class InterviewQuestionGenerator(dspy.Module):
 
 # def main():
 training_resume_text = parse_local_pdf("training-resume.pdf")
-training_job_text = parse_input_pdf("training-job.pdf")
+training_job_text = parse_local_pdf("training-job.pdf")
 from trainingdata import training_texts
 
 # return resume_text, job_text
@@ -167,9 +168,8 @@ print("Trainset created...")
 
 
 skill_keywords = {
-    "sql": ["sql"],
-    "python": ["python"],
-    "ml": ["ml", "machine learning"],
+    "code": ["java", "python", "go", "code", "programming"],
+    "cloud": ["aws", "gcp", "azure"],
 }
 
 
