@@ -251,9 +251,7 @@ print(resume_text)
 
 if not (resume_text and job_text):
     st.error("Please upload both your resume and job description!")
-
-# Generate the initial question
-if resume_text and job_text:
+else:
     previous_question = None
     while 1:
         question = generate_question(resume_text, job_text, previous)
