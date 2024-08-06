@@ -146,9 +146,8 @@ from trainingdata import training_texts
 
 examples = []
 previous_questions = ""
-for i in enumerate(training_texts):
-    question = training_texts[i][0]
-    last_answer = training_texts[i - 1][1] if i >= 1 else ""
+last_answer = ""
+for i, (question, answer) in enumerate(training_texts):
     examples.append(
         dspy.Example(
             resume_text=training_resume_text,
@@ -158,6 +157,7 @@ for i in enumerate(training_texts):
             question=question,
         )
     )
+    last_answer = answer
     previous_questions += question
 
 print("Training examples created...")
