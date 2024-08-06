@@ -22,17 +22,8 @@ CLAUDE_KEY = st.secrets["CLAUDE_KEY"]
 
 
 class Claude(LM):
-    def __init__(self, model, api_key, **kwargs):
-        kw = {
-            "temperature": 0.0,
-            "max_tokens": 150,
-            "top_p": 1,
-            "frequency_penalty": 0,
-            "presence_penalty": 0,
-            "n": 1,
-        }
-        kw.update(kwargs)
-        self.kwargs = kw
+    def __init__(self, model, api_key):
+        super().__init__(model=model)
         self.model = model
         self.api_key = api_key
         self.provider = "default"
