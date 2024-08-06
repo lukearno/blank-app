@@ -69,7 +69,7 @@ class Claude(LM):
 
 
 # lm = Claude("claude-3-5-sonnet-20240620", CLAUDE_KEY)
-lm = dspy.GroqLM(model="llama-3.1-405b-reasoning", api_key=GROQ_KEY)
+lm = dspy.Groq(model="llama-3.1-405b-reasoning", api_key=GROQ_KEY)
 
 
 dspy.settings.configure(lm=lm, backoff_time=20000)
