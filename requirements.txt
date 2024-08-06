@@ -2,3 +2,4 @@ streamlit
 dspy
 llama-parse
 httpx
+groq
