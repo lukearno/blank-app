@@ -68,7 +68,7 @@ class Claude(LM):
 
 
 sonnet = Claude("claude-3-5-sonnet-20240620", CLAUDE_KEY)
-dspy.settings.configure(lm=sonnet)
+dspy.settings.configure(lm=sonnet, backoff_time=13)
 
 
 @st.cache_data
