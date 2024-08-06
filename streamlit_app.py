@@ -18,7 +18,7 @@ from dsp import LM
 
 
 LLAMA_INDEX_KEY = st.secrets["LLAMA_INDEX_KEY"]
-CLAUDE_KEY = st.secrets["CLAUD_KEY"]
+CLAUDE_KEY = st.secrets["CLAUDE_KEY"]
 
 
 class Claude(LM):
