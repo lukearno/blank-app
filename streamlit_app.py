@@ -1,7 +1,8 @@
 import tempfile
 import os
+
+import httpx
 import dspy
-import streamlit as st
 from dspy import (
     Signature,
     Module,
@@ -15,6 +16,7 @@ from dspy.teleprompt import BootstrapFewShot
 from llama_parse import LlamaParse
 from dspy.evaluate import Evaluate
 from dsp import LM
+import streamlit as st
 
 
 LLAMA_INDEX_KEY = st.secrets["LLAMA_INDEX_KEY"]
@@ -43,7 +45,7 @@ class Claude(LM):
             "messages": [{"role": "user", "content": prompt}],
         }
 
-        response = requests.post(self.base_url, headers=headers, json=data)
+        response = httpx.post(self.base_url, headers=headers, json=data)
         response = response.json()
 
         self.history.append(
