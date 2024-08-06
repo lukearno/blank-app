@@ -134,8 +134,8 @@ class InterviewQuestionGenerator(dspy.Module):
 
 
 # def main():
-training_resume_text = parse_local_pdf("training-resume.pdf")
-training_job_text = parse_local_pdf("training-job.pdf")
+training_resume_text = parse_local_pdf("trainingdata/resume.pdf")
+training_job_text = parse_local_pdf("trainingdata/job.pdf")
 from trainingdata import training_texts
 
 # return resume_text, job_text
