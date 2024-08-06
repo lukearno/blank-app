@@ -111,15 +111,13 @@ class GenerateInterviewQuestion(dspy.Signature):
 
 
 class InterviewQuestionGenerator(dspy.Module):
-    def __init__(self, resume_text, job_text):
+    def __init__(self, resume, job):
         super().__init__()
-        self.resume = resume_text
-        self.job = job_text
         self.generate_question = Predict(GenerateInterviewQuestion)
 
     def forward(self, last_answer=None):
         prediction = self.generate_question(
-            resume_text=self.resume, job_text=self.job, last_answer=last_answer
+            resume_text=resume, job_text=sjob, last_answer=last_answer
         )
         return dspy.Prediction(question=prediction.question)
 
@@ -228,7 +226,7 @@ class FinalQuestionGenerator:
         print("Training completed...")
 
     def gen_question(self, resume, job, last_answer=None):
-        pred = self.module(resume_text=resume, job_text=job, last_answer=last_answer)
+        pred = self.module(resume=resume, job=job, last_answer=last_answer)
         return pred.question
 
 
