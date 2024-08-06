@@ -135,6 +135,8 @@ class InterviewQuestionGenerator(dspy.Module):
 # def main():
 training_resume_text = parse_local_pdf("training-resume.pdf")
 training_job_text = parse_input_pdf("training-job.pdf")
+from trainingdata import training_texts
+
 # return resume_text, job_text
 
 
@@ -143,7 +145,9 @@ training_job_text = parse_input_pdf("training-job.pdf")
 
 examples = []
 previous_questions = ""
-for question, last_answer in training_texts:
+for i in enumerate(training_texts):
+    question = training_texts[i][0]
+    last_answer = training_texts[i - 1][1] if i >= 1 else ""
     examples.append(
         dspy.Example(
             resume_text=training_resume_text,
@@ -157,20 +161,9 @@ for question, last_answer in training_texts:
 
 print("Training examples created...")
 
-# Tell DSPy about the specific input fields
 trainset = [ex.with_inputs("resume_text", "job_text", "last_answer") for ex in examples]
 
 print("Trainset created...")
-
-# Set up Metric and Evaluation
-
-
-class Assess(dspy.Signature):
-    """Assesses the interview question for question count within a skill."""
-
-    assessed_text = dspy.InputField()  # Interview question
-    assessment_question = dspy.InputField()  # Question for LLM assessment
-    assessment_answer = dspy.OutputField(desc="Yes or No")  # LLM's answer
 
 
 skill_keywords = {
@@ -190,6 +183,14 @@ def identify_current_skill(question, previous_questions):
         ):
             return skill
     return None
+
+
+class Assess(dspy.Signature):
+    """Assesses the interview question for question count within a skill."""
+
+    assessed_text = dspy.InputField()  # Interview question
+    assessment_question = dspy.InputField()  # Question for LLM assessment
+    assessment_answer = dspy.OutputField(desc="Yes or No")  # LLM's answer
 
 
 def metric(gold, pred, trace=None):
