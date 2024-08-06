@@ -26,7 +26,7 @@ class Claude(LM):
         self.model = model
         self.api_key = api_key
         self.provider = "default"
-
+        self.kwargs = {}
         self.base_url = "https://api.anthropic.com/v1/messages"
 
     def basic_request(self, prompt: str, **kwargs):
