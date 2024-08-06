@@ -95,10 +95,10 @@ def parse_input_pdf(label):
 class GenerateInterviewQuestion(dspy.Signature):
     """Based on resume, job description, and last answer."""
 
-    resume_text = dspy.InputField(
+    resume = dspy.InputField(
         desc="Text of the candidate's resume detailing their skills and experience"
     )
-    job_text = dspy.InputField(
+    job = dspy.InputField(
         desc="Text of the job description outlining required qualifications"
     )
     last_answer = dspy.InputField(
@@ -119,7 +119,7 @@ class InterviewQuestionGenerator(dspy.Module):
 
     def forward(self, last_answer=None):
         prediction = self.generate_question(
-            resume_text=self.resume, job_text=self.job, last_answer=last_answer
+            resume=self.resume, job=self.job, last_answer=last_answer
         )
         return dspy.Prediction(question=prediction.question)
 
@@ -148,8 +148,8 @@ last_answer = ""
 for i, (question, answer) in enumerate(training_texts):
     examples.append(
         dspy.Example(
-            resume_text=training_resume_text,
-            job_text=training_job_text,
+            resume=training_resume_text,
+            job=training_job_text,
             last_answer=last_answer,
             previous_questions=previous_questions,
             question=question,
@@ -160,7 +160,7 @@ for i, (question, answer) in enumerate(training_texts):
 
 print("Training examples created...")
 
-trainset = [ex.with_inputs("resume_text", "job_text", "last_answer") for ex in examples]
+trainset = [ex.with_inputs("resume", "job", "last_answer") for ex in examples]
 
 print("Trainset created...")
 
@@ -247,8 +247,6 @@ generated_question_1 = None
 generated_question = None
 user_answer = None
 
-print(job_text)
-print(resume_text)
 if st.button("Generate Interview Question"):
     if not (resume_text and job_text):
         st.error("Please upload both your resume and job description!")
