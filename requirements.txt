@@ -1,5 +1,5 @@
 streamlit
-dspy
+dspy-ai
 llama-parse
 httpx
 groq
