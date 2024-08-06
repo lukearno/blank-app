@@ -227,14 +227,14 @@ class FinalQuestionGenerator:
         )
         print("Training completed...")
 
-    def gen_question(self, last_answer=None):
-        pred = self.module(
-            resume_text=self.resume, job_text=self.job, last_answer=last_answer
-        )
+    def gen_question(self, resume, job, last_answer=None):
+        pred = self.module(resume_text=resume, job_text=job, last_answer=last_answer)
         return pred.question
 
 
-final = FinalQuestionGenerator(resume_text, job_text, metric, trainset)
+final = FinalQuestionGenerator(
+    training_resume_text, training_job_text, metric, trainset
+)
 
 # Streamlit App
 st.title("DSPy-Optimized AI Interview Assistant")
