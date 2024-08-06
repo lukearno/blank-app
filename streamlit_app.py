@@ -88,7 +88,7 @@ def parse_input_pdf(label):
     uploaded_file = st.file_uploader(label)
     if uploaded_file is not None:
         bytes_data = uploaded_file.getvalue()
-        with tempfile.NamedTemporaryFile() as tf:
+        with tempfile.NamedTemporaryFile(suffix=".pdf") as tf:
             tf.write(bytes_data)
             tf.flush()
             parse_local_pdf(tf.name)
