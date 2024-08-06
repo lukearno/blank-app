@@ -22,9 +22,9 @@ CLAUDE_KEY = st.secrets["CLAUDE_KEY"]
 
 
 class Claude(LM):
-    def __init__(self, model, api_key, **kwargs):
+    def __init__(self, model, api_key):
+        super().__init__(model=model)
         self.model = model
-        self.kwargs = kwargs
         self.api_key = api_key
         self.provider = "default"
         self.base_url = "https://api.anthropic.com/v1/messages"
