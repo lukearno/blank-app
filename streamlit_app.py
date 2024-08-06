@@ -241,31 +241,31 @@ resume_text = parse_input_pdf("Resume (PDF Only)")
 job_text = parse_input_pdf("Job Description (PDF Only)")
 generated_questions = []
 generated_question_1 = None
-submit_button = st.button("Generate Interview Question")
+
 
 generated_question = None
 user_answer = None
 
 print(job_text)
 print(resume_text)
-
-if not (resume_text and job_text):
-    st.error("Please upload both your resume and job description!")
-else:
-    previous_question = None
-    while 1:
-        question = generate_question(resume_text, job_text, previous)
-        if question:
-            st.write(question)
-            answer = st.text_area("Your Answer here:")
-            submit_answer = st.button("Submit Your Answer")
-            if answer:
-                if answer == "bye":
-                    break
-                # TODO: feedback
-                st.success("Answer submitted successfully!")
+if st.button("Generate Interview Question"):
+    if not (resume_text and job_text):
+        st.error("Please upload both your resume and job description!")
+    else:
+        previous_question = None
+        while 1:
+            question = generate_question(resume_text, job_text, previous)
+            if question:
+                st.write(question)
+                answer = st.text_area("Your Answer here:")
+                submit_answer = st.button("Submit Your Answer")
+                if answer:
+                    if answer == "bye":
+                        break
+                    # TODO: feedback
+                    st.success("Answer submitted successfully!")
+                else:
+                    st.warning("Please provide an answer before proceeding.")
             else:
-                st.warning("Please provide an answer before proceeding.")
-        else:
-            break
-        previous_question = question
+                break
+            previous_question = question
