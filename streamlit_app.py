@@ -210,7 +210,7 @@ print("Metric created...")
 
 
 class FinalQuestionGenerator:
-    def __init__(self, resume_text, job_text, trainset):
+    def __init__(self, resume_text, job_text, metric, trainset):
         self.resume = resume_text
         self.job = job_text
         evaluator = Evaluate(
@@ -234,6 +234,8 @@ class FinalQuestionGenerator:
         return pred.question
 
 
+final = FinalQuestionGenerator(resume_text, job_text, metric, trainset)
+
 # Streamlit App
 st.title("DSPy-Optimized AI Interview Assistant")
 resume_text = parse_input_pdf("Resume (PDF Only)")
@@ -253,7 +255,7 @@ if st.button("Generate Interview Question"):
     else:
         previous_question = None
         while 1:
-            question = generate_question(resume_text, job_text, previous)
+            question = final.generate_question(resume_text, job_text, previous)
             if question:
                 st.write(question)
                 answer = st.text_area("Your Answer here:")
