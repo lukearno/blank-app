@@ -253,7 +253,9 @@ if st.button("Generate Interview Question"):
     else:
         previous_question = None
         while 1:
-            question = final.generate_question(resume_text, job_text, previous)
+            question = final.generate_question(
+                resume=resume_text, job=job_text, last_answer=previous
+            )
             if question:
                 st.write(question)
                 answer = st.text_area("Your Answer here:")
