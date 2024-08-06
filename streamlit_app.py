@@ -253,16 +253,19 @@ if not (resume_text and job_text):
 # Generate the initial question
 if resume_text and job_text:
     previous_question = None
-    question = generate_question(resume_text, job_text, previous)
-    if question:
-        st.write(question)
-        answer = st.text_area("Your Answer here:")
-        submit_answer = st.button("Submit Your Answer")
-        if answer:
-            if answer == "bye":
-                break
-            # TODO: feedback
-            st.success("Answer submitted successfully!")
+    while 1:
+        question = generate_question(resume_text, job_text, previous)
+        if question:
+            st.write(question)
+            answer = st.text_area("Your Answer here:")
+            submit_answer = st.button("Submit Your Answer")
+            if answer:
+                if answer == "bye":
+                    break
+                # TODO: feedback
+                st.success("Answer submitted successfully!")
+            else:
+                st.warning("Please provide an answer before proceeding.")
         else:
-            st.warning("Please provide an answer before proceeding.")
-    previous_question = question
+            break
+        previous_question = question
