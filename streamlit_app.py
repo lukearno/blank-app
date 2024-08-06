@@ -212,16 +212,14 @@ class FinalQuestionGenerator:
         evaluator = Evaluate(
             devset=trainset, num_threads=5, display_progress=True, display_table=11
         )
-        evaluation_score = evaluator(
-            InterviewQuestionGenerator(resume=resume, job=job), metric
-        )
+        evaluation_score = evaluator(InterviewQuestionGenerator(), metric)
         print("Evaluation is good...")
         print(f"Average Metric: {evaluation_score}")
         teleprompter = BootstrapFewShot(
             metric=metric, max_bootstrapped_demos=5, max_labeled_demos=5
         )
         self.module = teleprompter.compile(
-            InterviewQuestionGenerator(resume=resume, job=job), trainset=trainset
+            InterviewQuestionGenerator(), trainset=trainset
         )
         print("Training completed...")
 
