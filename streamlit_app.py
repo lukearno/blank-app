@@ -47,7 +47,7 @@ class Claude(LM):
 
         response = httpx.post(self.base_url, headers=headers, json=data)
         response = response.json()
-
+        print(response)
         self.history.append(
             {
                 "prompt": prompt,
