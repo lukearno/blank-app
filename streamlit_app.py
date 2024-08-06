@@ -21,6 +21,7 @@ import streamlit as st
 
 LLAMA_INDEX_KEY = st.secrets["LLAMA_INDEX_KEY"]
 CLAUDE_KEY = st.secrets["CLAUDE_KEY"]
+GROQ_KEY = st.secrets["GROQ_KEY"]
 
 
 class Claude(LM):
@@ -67,8 +68,11 @@ class Claude(LM):
         return completions
 
 
-sonnet = Claude("claude-3-5-sonnet-20240620", CLAUDE_KEY)
-dspy.settings.configure(lm=sonnet, backoff_time=20000)
+# lm = Claude("claude-3-5-sonnet-20240620", CLAUDE_KEY)
+lm = dspy.GROQ(model="llama-3.1-405b-reasoning", api_key=GROQ_KEY)
+
+
+dspy.settings.configure(lm=lm, backoff_time=20000)
 
 
 @st.cache_data
@@ -198,7 +202,7 @@ def metric(gold, pred, trace=None):
     question = pred.question.lower()
     previous_questions = gold.previous_questions
     current_skill = identify_current_skill(question, previous_questions)
-    with dspy.context(lm=sonnet, backoff_time=20000):
+    with dspy.context(lm=lm, backoff_time=20000):
         count_check = dspy.Predict(Assess)(
             assessed_text=question,
             assessment_question=f"Have there already been 3 questions asked about the same skill ({current_skill}) as this question?",
